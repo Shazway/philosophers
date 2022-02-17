@@ -6,13 +6,13 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 22:26:20 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/02/17 17:23:14 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/02/17 21:50:21 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_atoi(char *str)
+int ft_atoi(char *str)
 {
 	int	i;
 	int	sign;
@@ -36,19 +36,6 @@ int	ft_atoi(char *str)
 		i++;
 	}
 	return (nb * sign);
-}
-
-void	free_philosophers(pthread_t *philo, int nb_philo)
-{
-	int	i;
-
-	i = 0;
-	while (philo && i < nb_philo)
-	{
-		free(philo[i]);
-		i++;
-	}
-	free(philo);
 }
 
 int	ft_isdigit(int c)
