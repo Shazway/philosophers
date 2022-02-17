@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:54:55 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/02/16 15:11:59 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/02/17 17:23:15 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,10 @@ typedef struct s_data
 	pthread_t	*philo;
 	t_parse	pars;
 }	t_data;
+void	free_philosophers(pthread_t *philo, int nb_philo);
+int	ft_isdigit(int c);
+int	ft_atoi(char *str);
+int	check_args(char **av, int ac, t_data *data);
+void	fill_parsing(char **av, t_data *data, int ac);
 
 #endif
