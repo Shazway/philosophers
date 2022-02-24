@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:54:55 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/02/22 02:18:40 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/02/24 15:20:41 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,22 @@ typedef struct s_parse
 
 typedef struct s_philo
 {
+	t_parse		*pars;
 	int			table_fork;
 	int			hand_forks;
 	int			state;
+	int			id;
 	pthread_t	t;
 }	t_philo;
 
 typedef struct s_data
 {
-	int			id;
-	t_philo	*philo;
-	t_parse	pars;
-	pthread_mutex_t fork_lock;
+	t_philo	**philo;
+	t_parse	*pars;
 	pthread_mutex_t death_lock;
 }	t_data;
 //---------Allocation and free functions-----//
-void	free_philosophers(pthread_t *philo, int nb_philo);
+void	free_philosophers(t_data *from_burden);
 int		free_data(t_data *data);
 //---------Utilitary functions--------------//
 int		ft_isdigit(int c);
