@@ -6,12 +6,28 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:38:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/02/24 15:28:25 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/02/24 16:12:45 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 //GNL IN LIBFT
+
+void	print_philo_data(t_data *data)
+{
+	int i;
+
+	i = 0;
+	while (i < data->pars->nb_philo)
+	{
+		printf("table fork of %d %d\n", i, data->philo[i][0].table_fork);
+		printf("state of %d %d\n", i, data->philo[i][0].state);
+		printf("holding of %d %d\n", i, data->philo[i][0].hand_forks);
+		printf("id of %d %d\n", i, data->philo[i][0].id);
+		i++;
+	}
+}
+
 int	allocate_philo(t_data *data, int nb_philo)
 {
 	int	i;
@@ -24,6 +40,7 @@ int	allocate_philo(t_data *data, int nb_philo)
 		i++;
 	}
 	init_philo_data(data);
+	print_philo_data(data);
 	if (!data->philo)
 		return (1);
 	return (0);
@@ -35,6 +52,7 @@ int		left_fork(t_philo *philo, int id)
 	{
 		if (philo[philo->pars->nb_philo].table_fork == 1)
 			return (1);
+		printf("fork isn't available for 0, %d\n", philo[philo->pars->nb_philo].table_fork);
 	}
 	else if (philo[id - 1].table_fork == 1)
 		return (1);
@@ -47,6 +65,7 @@ int		right_fork(t_philo *philo, int id)
 	{	
 		if (philo[0].table_fork == 1)
 			return (1);
+		printf("fork isn't available for last\n");
 	}
 	else if (philo[id + 1].table_fork == 1)
 		return (1);
@@ -58,10 +77,11 @@ void	get_fork(t_philo *philo)
 	pthread_mutex_t fork_lock;
 
 	pthread_mutex_init(&fork_lock, NULL);
+	usleep(500);
 	pthread_mutex_lock(&fork_lock);
 	if (left_fork(philo, philo->id))
 		printf("philosopher number %d is taking a fork\n", philo->id);
-	else if (right_fork(philo, philo->id))
+	if (right_fork(philo, philo->id))
 		printf("philosopher number %d is taking a fork\n", philo->id);
 	pthread_mutex_unlock(&fork_lock);
 	pthread_mutex_destroy(&fork_lock);
