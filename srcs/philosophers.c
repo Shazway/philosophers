@@ -6,25 +6,30 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:38:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/02/17 22:35:38 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/02/22 15:20:38 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-int	allocate_threads(t_data *data, int nb_philo)
+//GNL IN LIBFT
+int	allocate_philo(t_data *data, int nb_philo)
 {
-	data->philo = malloc(sizeof(pthread_t) * nb_philo);
+	data->philo = malloc(sizeof(t_philo) * nb_philo);
 	if (!data->philo)
 		return (1);
 	return (0);
 }
 
-void*	routine()
+void	get_fork(t_data *data)
 {
-	write(1, "a thread is passing here\n", 26);
-	usleep(4000*1000);
-	write(1, "a thread is leaving here\n", 26);
+	usleep(400);
+	pthread_mutex_lock(&(data->fork_lock));
+	printf("philosopher number %d is taking a fork", data->id);
+	pthread_mutex_unlock((&data->fork_lock));
+}
+void*	routine(void *data)
+{
+	get_fork(data);
 	return (NULL);
 }
 
@@ -32,18 +37,18 @@ void	create_threads(t_data *data, int nb_philo)
 {
 	int i;
 
-	(void)data;
 	i = 0;
 	while (i < nb_philo)
 	{
-		pthread_create(data->philo + i, NULL, &routine, NULL);
+		data->id = i;
+		pthread_create(&(data->philo[i].t), NULL, &routine, (void *)data);
 		i++;
 	}
 	i = 0;
 	while (i < nb_philo)
 	{
 		printf("I'm waiting %d\n", i);
-		pthread_join(data->philo[i], NULL);
+		pthread_join(data->philo[i].t, NULL);
 		printf("%d is finished\n", i);
 		i++;
 	}
@@ -55,13 +60,16 @@ int	main(int ac, char **av)
 	t_data	*data;
 
 	data = malloc(sizeof(t_data));
+	pthread_mutex_init(&(data->fork_lock), NULL);
+	pthread_mutex_init(&(data->death_lock), NULL);
 	if (!data)
 		return (1);
-	if (ac < 4 || ac > 5)
-		return (write(1, "Wrong number of argumens\n", 26));
-	fill_parsing(av, data, ac);
-	allocate_threads(data, data->pars.nb_philo);
-	check_args(av, ac, data);
+	if (check_args(av, ac, data))
+		return (free_data(data));
+	allocate_philo(data, data->pars.nb_philo);
 	create_threads(data, data->pars.nb_philo);
+	pthread_mutex_destroy(&(data->fork_lock));
+	pthread_mutex_destroy(&(data->death_lock));
+	free(data->philo);
 	free(data);
 }

@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 22:18:46 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/02/17 21:30:37 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/02/20 17:24:27 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,11 @@ int	check_args(char **av, int ac, t_data *data)
 		j = 0;
 		while (av[i][j])
 		{
-			if (ft_isdigit(av[i][j]))
+			if (!ft_isdigit(av[i][j]))
+			{
+				printf("%s\n", av[i]);
 				return (printf("Arguments must be positive numbers\n"));
+			}
 			j++;
 		}
 		i++;

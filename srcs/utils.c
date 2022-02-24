@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 22:26:20 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/02/17 21:50:21 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/02/22 02:16:17 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,26 @@ int ft_atoi(char *str)
 		i++;
 	}
 	return (nb * sign);
+}
+
+void	init_philo_data(t_data *data)
+{
+	int i;
+
+	i = 0;
+	while (i < data->pars.nb_philo)
+	{
+		data->philo[i].table_fork = 1;
+		data->philo[i].state = -1;
+		data->philo[i].hand_forks = 0;
+		i++;
+	}
+}
+
+int	free_data(t_data *data)
+{
+	free(data);
+	return (1);
 }
 
 int	ft_isdigit(int c)
