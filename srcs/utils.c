@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 22:26:20 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/17 16:53:07 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/17 20:02:06 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,39 @@ int ft_atoi(char *str)
 	return (nb * sign);
 }
 
-void	init_philo_data(t_data *data)
+void	init_forks(t_data *data)
 {
 	int i;
 
 	i = 0;
-	while (i < data->info->nb_philo)
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
+	if (!data->forks)
+		return ;
+	while (i < data->nb_philo)
 	{
 		pthread_mutex_init(data->forks + i, NULL);
-		data->philo[i].state = 2;
-		data->philo[i].hand_forks = 0;
+		i++;
+	}
+}
+
+void	init_philo_data(t_data *data, t_philo *philo)
+{
+	int i;
+
+	i = 0;
+	init_forks(data);
+	while (i < data->nb_philo)
+	{
+		philo[i].data = data;
+		philo[i].id = i;
+		philo[i].r_fork = data->forks + i;
+		if (i == data->nb_philo - 1)
+			philo[i].l_fork = data->forks;
+		else
+			philo[i].l_fork = data->forks + i + 1;
+		philo[i].state = ALIVE;
+		philo[i].right_fork = 0;
+		philo[i].left_fork = 0;	
 		i++;
 	}
 }

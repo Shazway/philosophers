@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:54:55 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/17 17:14:24 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/17 22:20:10 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,32 +19,34 @@
 # include <pthread.h>
 # include <sys/time.h>
 # define DEAD 0
-# define FORK 1
-# define MEAL 2
-# define THINK 3
-# define SLEEP 4
+# define ALIVE 1
 
-typedef struct s_info
-{
-}	t_info;
+struct s_data;
 
 typedef struct s_philo
 {
-	int				hand_forks;
+	struct s_data	*data;
+	int				right_fork;
+	int				left_fork;
 	int				state;
 	int				id;
 	pthread_t		t;
-	long			nb_philo;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	nb_meals;
+	pthread_mutex_t	*r_fork;
+	pthread_mutex_t	*l_fork;
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
+	struct timeval	last_meal;
+	long			nb_meals;
 }	t_philo;
 
 typedef struct s_data
 {
-	t_philo			*philo;
-	t_info			*info;
+	long	nb_philo;
+	long	time_to_die;
+	long	time_to_eat;
+	long	time_to_sleep;
+	long	nb_meals;
 	pthread_mutex_t	*forks;
 	struct timeval	current_time;
 	struct timeval	start_time;
@@ -59,6 +61,6 @@ int		ft_isdigit(int c);
 int		ft_atoi(char *str);
 int		check_args(char **av, int ac, t_data *data);
 void	fill_parsing(char **av, t_data *data, int ac);
-void	init_philo_data(t_data *data);
+void	init_philo_data(t_data *data, t_philo *philo);
 
 #endif
