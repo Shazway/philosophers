@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 22:18:46 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/02/24 15:11:11 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/17 16:32:47 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	fill_parsing(char **av, t_data *data, int ac)
 {
-	data->pars->nb_philo = ft_atoi(av[1]);
-	data->pars->time_to_die = ft_atoi(av[2]);
-	data->pars->time_to_eat = ft_atoi(av[3]);
-	data->pars->time_to_sleep = ft_atoi(av[4]);
+	data->info->nb_philo = ft_atoi(av[1]);
+	data->info->time_to_die = ft_atoi(av[2]);
+	data->info->time_to_eat = ft_atoi(av[3]);
+	data->info->time_to_sleep = ft_atoi(av[4]);
 	if (ac == 6)
-		data->pars->nb_meals = ft_atoi(av[5]);
+		data->info->nb_meals = ft_atoi(av[5]);
 }
 
 int	check_args(char **av, int ac, t_data *data)

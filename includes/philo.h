@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:54:55 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/02/24 15:20:41 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/17 17:14:24 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,34 +17,38 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <pthread.h>
+# include <sys/time.h>
 # define DEAD 0
-# define MEAL 1
-# define THINK 2
-# define SLEEP 3
+# define FORK 1
+# define MEAL 2
+# define THINK 3
+# define SLEEP 4
 
-typedef struct s_parse
+typedef struct s_info
 {
-	int	nb_philo;
+}	t_info;
+
+typedef struct s_philo
+{
+	int				hand_forks;
+	int				state;
+	int				id;
+	pthread_t		t;
+	long			nb_philo;
 	int	time_to_die;
 	int	time_to_eat;
 	int	time_to_sleep;
 	int	nb_meals;
-}	t_parse;
-
-typedef struct s_philo
-{
-	t_parse		*pars;
-	int			table_fork;
-	int			hand_forks;
-	int			state;
-	int			id;
-	pthread_t	t;
 }	t_philo;
 
 typedef struct s_data
 {
-	t_philo	**philo;
-	t_parse	*pars;
+	t_philo			*philo;
+	t_info			*info;
+	pthread_mutex_t	*forks;
+	struct timeval	current_time;
+	struct timeval	start_time;
+	pthread_mutex_t	current_action;
 	pthread_mutex_t death_lock;
 }	t_data;
 //---------Allocation and free functions-----//

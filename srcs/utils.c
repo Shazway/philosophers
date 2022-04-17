@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 22:26:20 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/02/24 15:12:48 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/17 16:53:07 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,11 @@ void	init_philo_data(t_data *data)
 	int i;
 
 	i = 0;
-	while (i < data->pars->nb_philo)
+	while (i < data->info->nb_philo)
 	{
-		data->philo[i][0].table_fork = 1;
-		data->philo[i][0].state = -1;
-		data->philo[i][0].hand_forks = 0;
-		data->philo[i][0].id = i;
-		data->philo[i][0].pars = data->pars;
+		pthread_mutex_init(data->forks + i, NULL);
+		data->philo[i].state = 2;
+		data->philo[i].hand_forks = 0;
 		i++;
 	}
 }
