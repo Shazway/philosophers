@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 22:26:20 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/17 20:02:06 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/19 17:11:56 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,11 @@ int	ft_isdigit(int c)
 	if (c >= '0' && c <= '9')
 		return (1);
 	return (0);
+}
+
+void	change_lock(pthread_mutex_t *lock, int *val1, int val2)
+{
+	pthread_mutex_lock(lock);
+	*val1 = val2;
+	pthread_mutex_unlock(lock);
 }

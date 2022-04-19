@@ -6,118 +6,60 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:38:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/17 22:20:51 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/19 17:09:28 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-//GNL IN LIBFT
 
-//----------Time data---------//
-//printf ("Time is %ld\n", data->current_time.tv_usec - data->start_time.tv_usec);
-
-void	current_actions(t_philo *philo, char *action)
+int		check_lock(pthread_mutex_t *lock, int value)
 {
-	struct timeval current_time;
+	int temp;
 
-	pthread_mutex_lock(&(philo->data->current_action));
-	gettimeofday(&(current_time), NULL);
-	printf("%d %d %s\n", (current_time.tv_usec - philo->data->start_time.tv_usec) / 1000, philo->id + 1, action);
-	pthread_mutex_unlock(&(philo->data->current_action));
-}
-
-void	get_forks(t_philo *philo)
-{
-	if (philo->id % 2 > 0)
+	temp = value;
+	pthread_mutex_lock(lock);
+	if (temp == 1)
 	{
-		pthread_mutex_lock(philo->r_fork);
-		philo->right_fork = 1;
-		current_actions(philo, "is taking a fork (right)");
-		pthread_mutex_lock(philo->l_fork);
-		current_actions(philo, "is taking a fork(left)");
-		philo->left_fork = 1;
+		pthread_mutex_unlock(lock);
+		return (1);
 	}
 	else
 	{
-		pthread_mutex_lock(philo->l_fork);
-		philo->left_fork = 1;
-		current_actions(philo, "is taking a fork(left)");
-		pthread_mutex_lock(philo->r_fork);
-		current_actions(philo, "is taking a fork(right)");
-		philo->right_fork = 1;
+		pthread_mutex_unlock(lock);
+		return (0);
 	}
 }
 
-void	release_forks(t_philo *philo)
+void	death_set(t_philo *philo)
 {
-	pthread_mutex_unlock(philo->r_fork);
-	printf("%d is releasing a fork (right)\n", philo->id + 1);
-	philo->right_fork = 0;
-	pthread_mutex_unlock(philo->l_fork);
-	printf("%d is releasing a fork (left)\n", philo->id + 1);
-	philo->left_fork = 0;
-}
-
-void	ft_sleep(long time)
-{
-	struct timeval start_time;
-	struct timeval current_time;
-
-//----Secondes * 1000 + microsecondes / 1000 + duree du usleep---//
-	printf("time = %ld\n", time);
-	gettimeofday(&(start_time), NULL);
-	current_time.tv_usec = start_time.tv_usec;
-	while (current_time.tv_usec / 1000 + 100 < start_time.tv_usec / 1000 + time)
-	{
-		usleep(100 * 1000);
-		printf("paused : %d\n", current_time.tv_usec / 1000);
-		gettimeofday(&(current_time), NULL);
-	}
-}
-
-void	*routine(void *p)
-{
-	t_philo *philo;
-
-	philo = (t_philo *)p;
-	
-	while (1)
-	{
-		get_forks(philo);
-		//----Verifier si mort----//
-		printf("%d will take %ld time to eat\n", philo->id, philo->data->time_to_eat);
-		current_actions(philo, "is eating");
-		gettimeofday(&(philo->last_meal), NULL);
-		ft_sleep(philo->data->time_to_eat);
-		release_forks(philo);
-		printf("%d will take %ld ms to eat\n", philo->id, philo->data->time_to_sleep);
-		current_actions(philo, "is sleeping");
-		ft_sleep(philo->data->time_to_sleep);
-		current_actions(philo, "is thinking");
-	}
-	return (NULL);
-}
-
-void	create_threads(t_data *data, t_philo *philo)
-{
-	int		i;
+	int i;
 
 	i = 0;
-	gettimeofday(&(data->start_time), NULL);
-	while (i < data->nb_philo)
+	change_lock(&(philo->data->death_lock), &(philo->data->death), ALIVE);
+	while (check_lock(&(philo->data->death_lock), philo->data->death) == ALIVE)
 	{
-		pthread_create(&(philo[i].t), NULL, &routine, philo + i);
-		i++;
+		while (i < philo->data->nb_philo)
+		{
+			if (convert_time(philo[i].last_meal) - convert_time(philo->data->start_time) >= philo->data->time_to_die * 1000)
+			{
+				change_lock(philo->data->death_lock, &(philo->data->death), DEAD);
+				current_actions(philo + i, "died");
+			}
+			i++;
+		}
 	}
+}
+
+void	obliterate_forks(pthread_mutex_t *fork, int size)
+{
+	int	i;
+
 	i = 0;
-	while (i < data->nb_philo)
+	while (i < size)
 	{
-		printf("I'm waiting %d\n", i + 1);
-		pthread_join(philo->t, NULL);
-		printf("%d is finished\n", i + 1);
+		pthread_mutex_destroy(fork + i);
 		i++;
 	}
-	free(philo);
 }
 
 int	main(int ac, char **av)
@@ -137,7 +79,9 @@ int	main(int ac, char **av)
 		return (1);
 	init_philo_data(data, philo);
 	create_threads(data, philo);
+	death_set(philo);
 	pthread_mutex_destroy(&(data->death_lock));
+	obliterate_forks(data->forks, data->nb_philo);
 	free(data->forks);
 	free(data);
 }

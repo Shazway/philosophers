@@ -6,7 +6,7 @@
 #    By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 23:27:53 by tmoragli          #+#    #+#              #
-#    Updated: 2022/02/17 17:09:24 by tmoragli         ###   ########.fr        #
+#    Updated: 2022/04/19 15:37:04 by tmoragli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,9 @@ PHILO	= 	philo
 SRCS	=	srcs/philosophers.c			\
 			srcs/utils.c				\
 			srcs/parsing.c				\
+			srcs/actions.c				\
+			srcs/threads.c				\
+			srcs/timers.c				\
 
 INCLUDES	=	-Iincludes
 
