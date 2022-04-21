@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:54:55 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/21 01:40:43 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/21 17:10:07 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_philo
 	int				id;
 	long			nb_meals;
 	long 			last_meal;
+	struct timeval	meal;
 	pthread_mutex_t	*r_fork;
 	pthread_t		t;
 	pthread_mutex_t	*l_fork;

@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:38:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/21 01:42:37 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/21 17:13:40 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	death_set(t_philo *philo)
 {
 	int i;
 	struct timeval time;
+	long	now;
 	i = 0;
 	printf("Here is death\n");
 	while (binary_lock(&(philo->data->death_lock), philo->data->death))
@@ -53,7 +54,8 @@ void	death_set(t_philo *philo)
 		while (i < philo->data->nb_philo)
 		{
 			gettimeofday(&time, NULL);
-			if (convert_time(time) - convert_time(philo[i].last_meal) > philo->data->time_to_die)
+			now = convert_time(time);
+			if (now - philo[i]-last_meal > philo->data->time_to_die)
 			{
 				change_lock(&(philo->data->death_lock),
 							&(philo->data->death), DEAD);

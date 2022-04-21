@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:32:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/21 01:42:05 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/21 17:11:01 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	*routine(void *p)
 						&(philo->data->death), DEAD);
 			return (NULL);
 		}
-		gettimeofday(&(philo->last_meal), NULL);
+		gettimeofday(&(philo->meal), NULL);
+		philo->last_meal = convert_time(philo->meal);
 		current_actions(philo, "is eating");
 		ft_sleep(philo->data->time_to_eat);
 		release_forks(philo);
