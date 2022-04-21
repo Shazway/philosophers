@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:35:59 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/19 15:52:52 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/21 01:13:19 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	current_actions(t_philo *philo, char *action)
 {
 	struct timeval current_time;
 
+	(void)action;
 	pthread_mutex_lock(&(philo->data->current_action));
 	gettimeofday(&(current_time), NULL);
 	printf("%ld %d %s\n", ft_time(0) - convert_time(philo->data->start_time) , philo->id + 1, action);

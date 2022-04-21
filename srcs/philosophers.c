@@ -6,44 +6,64 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:38:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/19 17:09:28 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/21 01:42:37 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int		check_lock(pthread_mutex_t *lock, int value)
+void	change_lock(pthread_mutex_t *lock, long *n1, long n2)
+{
+	pthread_mutex_lock(lock);
+	*n1 = n2;
+	pthread_mutex_unlock(lock);
+}
+
+int	binary_lock(pthread_mutex_t *lock, int n1)
 {
 	int temp;
 
-	temp = value;
 	pthread_mutex_lock(lock);
-	if (temp == 1)
+	temp = n1;
+	pthread_mutex_unlock(lock);
+	return (temp);
+}
+
+void	death_row(t_philo *philo)
+{
+	int	i;
+
+	i = 0;
+	while (i < philo->data->nb_philo)
 	{
-		pthread_mutex_unlock(lock);
-		return (1);
-	}
-	else
-	{
-		pthread_mutex_unlock(lock);
-		return (0);
+		philo[i].state = DEAD;
+		i++;
 	}
 }
 
 void	death_set(t_philo *philo)
 {
 	int i;
-
+	struct timeval time;
 	i = 0;
-	change_lock(&(philo->data->death_lock), &(philo->data->death), ALIVE);
-	while (check_lock(&(philo->data->death_lock), philo->data->death) == ALIVE)
+	printf("Here is death\n");
+	while (binary_lock(&(philo->data->death_lock), philo->data->death))
 	{
+		i = 0;
 		while (i < philo->data->nb_philo)
 		{
-			if (convert_time(philo[i].last_meal) - convert_time(philo->data->start_time) >= philo->data->time_to_die * 1000)
+			gettimeofday(&time, NULL);
+			if (convert_time(time) - convert_time(philo[i].last_meal) > philo->data->time_to_die)
 			{
-				change_lock(philo->data->death_lock, &(philo->data->death), DEAD);
+				change_lock(&(philo->data->death_lock),
+							&(philo->data->death), DEAD);
+				printf("\033[1;31m");
+				printf("%ld\n", convert_time(time) - convert_time(philo[i].last_meal));
+				printf("%ld %ld %ld\n", philo->data->time_to_die, philo->data->time_to_eat, philo->data->time_to_sleep);
 				current_actions(philo + i, "died");
+				printf("\033[0m");
+				death_row(philo);
+				return ;
 			}
 			i++;
 		}
@@ -79,7 +99,6 @@ int	main(int ac, char **av)
 		return (1);
 	init_philo_data(data, philo);
 	create_threads(data, philo);
-	death_set(philo);
 	pthread_mutex_destroy(&(data->death_lock));
 	obliterate_forks(data->forks, data->nb_philo);
 	free(data->forks);

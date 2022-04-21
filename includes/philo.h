@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:54:55 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/19 17:10:04 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/21 01:40:43 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,21 @@ typedef struct s_philo
 	int				left_fork;
 	int				state;
 	int				id;
-	pthread_t		t;
-	pthread_mutex_t	*r_fork;
-	pthread_mutex_t	*l_fork;
-	long			time_to_die;
-	long			time_to_eat;
-	long			time_to_sleep;
-	struct timeval	last_meal;
 	long			nb_meals;
+	long 			last_meal;
+	pthread_mutex_t	*r_fork;
+	pthread_t		t;
+	pthread_mutex_t	*l_fork;
 }	t_philo;
 
 typedef struct s_data
 {
-	long	nb_philo;
-	long	time_to_die;
-	long	time_to_eat;
-	long	time_to_sleep;
-	long	nb_meals;
-	int		death;
+	long			nb_philo;
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
+	long			nb_meals;
+	long			death;
 	pthread_mutex_t	*forks;
 	struct timeval	current_time;
 	struct timeval	start_time;
@@ -75,7 +72,9 @@ void	release_forks(t_philo *philo);
 //--------------Threads functions--------------//
 void	*routine(void *p);
 void	create_threads(t_data *data, t_philo *philo);
-void	change_lock(pthread_mutex_t *lock, long *val1, long val2);
+void	change_lock(pthread_mutex_t *lock, long *n1, long n2);
+int		binary_lock(pthread_mutex_t *lock, int n1);
+void	death_set(t_philo *philo);
 
 
 #endif
