@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:35:59 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/21 01:13:19 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/22 00:11:43 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ void	current_actions(t_philo *philo, char *action)
 	struct timeval current_time;
 
 	(void)action;
-	pthread_mutex_lock(&(philo->data->current_action));
 	gettimeofday(&(current_time), NULL);
-	printf("%ld %d %s\n", ft_time(0) - convert_time(philo->data->start_time) , philo->id + 1, action);
+	pthread_mutex_lock(&(philo->data->current_action));
+	if (binary_lock(&(philo->data->death_lock), philo->data->death))
+		printf("%ld %d %s\n", convert_time(current_time) - convert_time(philo->data->start_time), philo->id + 1, action);
 	pthread_mutex_unlock(&(philo->data->current_action));
 }
 
@@ -37,8 +38,10 @@ void	get_forks(t_philo *philo)
 	else
 	{
 		pthread_mutex_lock(philo->l_fork);
+		current_actions(philo, "has taken a fork");
 		philo->left_fork = 1;
 		pthread_mutex_lock(philo->r_fork);
+		current_actions(philo, "has taken a fork");
 		philo->right_fork = 1;
 	}
 }

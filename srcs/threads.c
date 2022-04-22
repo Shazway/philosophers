@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:32:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/21 17:11:01 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/22 01:57:16 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	*routine(void *p)
 		}
 		gettimeofday(&(philo->meal), NULL);
 		philo->last_meal = convert_time(philo->meal);
+		philo->nb_meals++;
 		current_actions(philo, "is eating");
 		ft_sleep(philo->data->time_to_eat);
 		release_forks(philo);
@@ -47,7 +48,7 @@ void	create_threads(t_data *data, t_philo *philo)
 	gettimeofday(&(data->start_time), NULL);
 	while (i < data->nb_philo)
 	{
-		philo[i].last_meal = data->start_time;
+		philo[i].last_meal = convert_time(data->start_time);
 		pthread_create(&(philo[i].t), NULL, &routine, philo + i);
 		i++;
 	}
@@ -58,6 +59,5 @@ void	create_threads(t_data *data, t_philo *philo)
 		pthread_join(philo->t, NULL);
 		i++;
 	}
-	printf("Over\n");
 	free(philo);
 }

@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:54:55 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/21 17:10:07 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/22 01:27:03 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_data
 	long			time_to_eat;
 	long			time_to_sleep;
 	long			nb_meals;
+	long			philo_meals;
 	long			death;
 	pthread_mutex_t	*forks;
 	struct timeval	current_time;

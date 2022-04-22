@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:38:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/21 17:13:40 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/22 02:17:32 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	death_set(t_philo *philo)
 	int i;
 	struct timeval time;
 	long	now;
+
 	i = 0;
-	printf("Here is death\n");
 	while (binary_lock(&(philo->data->death_lock), philo->data->death))
 	{
 		i = 0;
@@ -55,15 +55,21 @@ void	death_set(t_philo *philo)
 		{
 			gettimeofday(&time, NULL);
 			now = convert_time(time);
-			if (now - philo[i]-last_meal > philo->data->time_to_die)
+			if (philo[i].nb_meals == philo->data->nb_meals)
+				philo->data->philo_meals++;
+			if (philo->data->philo_meals == philo->data->nb_meals)
 			{
 				change_lock(&(philo->data->death_lock),
 							&(philo->data->death), DEAD);
-				printf("\033[1;31m");
-				printf("%ld\n", convert_time(time) - convert_time(philo[i].last_meal));
-				printf("%ld %ld %ld\n", philo->data->time_to_die, philo->data->time_to_eat, philo->data->time_to_sleep);
-				current_actions(philo + i, "died");
-				printf("\033[0m");
+				printf("Enough eating for today, all philosophers ate %ld times\n", philo->data->nb_meals - 1);
+				death_row(philo);
+				return ;
+			}
+			if (now - philo[i].last_meal > philo->data->time_to_die)
+			{
+				change_lock(&(philo->data->death_lock),
+							&(philo->data->death), DEAD);
+				printf("%ld %d %s\n", now - convert_time(philo->data->start_time) , i  + 1, "died");
 				death_row(philo);
 				return ;
 			}
@@ -84,6 +90,15 @@ void	obliterate_forks(pthread_mutex_t *fork, int size)
 	}
 }
 
+int	one_philo(t_data *data)
+{
+	printf("0 1 has taken a fork\n");
+	usleep(1000 * data->time_to_die);
+	printf("%ld 1 died\n", data->time_to_die);
+	free(data);
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	t_data	*data;
@@ -92,15 +107,18 @@ int	main(int ac, char **av)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (1);
-	pthread_mutex_init(&(data->death_lock), NULL);
-	pthread_mutex_init(&(data->current_action), NULL);
 	if (check_args(av, ac, data))
 		return (free_data(data));
+	if (data->nb_philo == 1)
+		return(one_philo(data));
+	pthread_mutex_init(&(data->current_action), NULL);
+	pthread_mutex_init(&(data->death_lock), NULL);
 	philo = malloc(sizeof(t_philo) * data->nb_philo);
 	if (!philo)
 		return (1);
 	init_philo_data(data, philo);
 	create_threads(data, philo);
+	pthread_mutex_destroy(&(data->current_action));
 	pthread_mutex_destroy(&(data->death_lock));
 	obliterate_forks(data->forks, data->nb_philo);
 	free(data->forks);

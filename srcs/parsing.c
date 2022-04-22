@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 22:18:46 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/17 18:40:40 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/22 02:03:48 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	fill_parsing(char **av, t_data *data, int ac)
 	data->time_to_sleep = ft_atoi(av[4]);
 	if (ac == 6)
 		data->nb_meals = ft_atoi(av[5]);
+	else
+		data->nb_meals = __INT_MAX__;
 }
 
 int	check_args(char **av, int ac, t_data *data)
@@ -27,7 +29,7 @@ int	check_args(char **av, int ac, t_data *data)
 	int	i;
 	int	j;
 
-	if (!(ac == 4 || ac == 5))
+	if (!(ac == 5 || ac == 6))
 		return (printf("Wrong number of arguments\n"));
 	if (ft_atoi(av[2]) < 1)
 		return (printf("How would the simulation work with no philosophers?\n"));
