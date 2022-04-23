@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 22:26:20 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/22 02:11:41 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/22 19:27:01 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	init_philo_data(t_data *data, t_philo *philo)
 	init_forks(data);
 	data->death = ALIVE;
 	data->philo_meals = 0;
-	data->nb_meals++;
 	while (i < data->nb_philo)
 	{
 		philo[i].data = data;
@@ -71,6 +70,7 @@ void	init_philo_data(t_data *data, t_philo *philo)
 			philo[i].l_fork = data->forks;
 		else
 			philo[i].l_fork = data->forks + i + 1;
+		philo[i].enough_meals = NOT_ENOUGH;
 		philo[i].state = ALIVE;
 		philo[i].right_fork = 0;
 		philo[i].left_fork = 0;

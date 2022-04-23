@@ -6,7 +6,7 @@
 #    By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 23:27:53 by tmoragli          #+#    #+#              #
-#    Updated: 2022/04/19 15:37:04 by tmoragli         ###   ########.fr        #
+#    Updated: 2022/04/23 18:06:16 by tmoragli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,8 @@ SRCS	=	srcs/philosophers.c			\
 			srcs/actions.c				\
 			srcs/threads.c				\
 			srcs/timers.c				\
+			srcs/grim_reaper.c			\
+
 
 INCLUDES	=	-Iincludes
 

@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:54:55 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/22 01:27:03 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/23 18:08:26 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <sys/time.h>
 # define DEAD 0
 # define ALIVE 1
+# define ENOUGH 2
+# define NOT_ENOUGH 3
 
 struct s_data;
 
@@ -32,6 +34,7 @@ typedef struct s_philo
 	int				id;
 	long			nb_meals;
 	long 			last_meal;
+	long			enough_meals;
 	struct timeval	meal;
 	pthread_mutex_t	*r_fork;
 	pthread_t		t;
@@ -71,12 +74,17 @@ void	ft_sleep(long pause_time);
 void	current_actions(t_philo *philo, char *action);
 void	get_forks(t_philo *philo);
 void	release_forks(t_philo *philo);
-//--------------Threads functions--------------//
+//--------------Threads and Mutex functions--------------//
 void	*routine(void *p);
 void	create_threads(t_data *data, t_philo *philo);
 void	change_lock(pthread_mutex_t *lock, long *n1, long n2);
 int		binary_lock(pthread_mutex_t *lock, int n1);
 void	death_set(t_philo *philo);
+//--------------Grim Reaper--------------//
+void	death_row(t_philo *philo);
+void	death_set(t_philo *philo);
+void	obliterate_forks(pthread_mutex_t *fork, int size);
+
 
 
 #endif
