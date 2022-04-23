@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:38:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/23 18:46:12 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/23 22:00:25 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int ac, char **av)
 	if (!data)
 		return (1);
 	if (check_args(av, ac, data))
-		return (free_data(data));
+		return (free_data_philo(data, NULL));
 	if (data->nb_philo == 1)
 		return (one_philo(data));
 	pthread_mutex_init(&(data->current_action), NULL);
@@ -44,5 +44,6 @@ int	main(int ac, char **av)
 	pthread_mutex_destroy(&(data->death_lock));
 	obliterate_forks(data->forks, data->nb_philo);
 	free(data->forks);
-	free(data);
+	free_data_philo(data, philo);
+	return (0);
 }

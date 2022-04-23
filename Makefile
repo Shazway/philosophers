@@ -6,7 +6,7 @@
 #    By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 23:27:53 by tmoragli          #+#    #+#              #
-#    Updated: 2022/04/23 18:06:16 by tmoragli         ###   ########.fr        #
+#    Updated: 2022/04/23 21:52:59 by tmoragli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,8 @@ OBJS		=	$(SRCS:.c=.o)
 CC			=	gcc
 RM			=	@rm -f
 
-LD_FLAGS	=	-fsanitize=address
-FLAGS		=	-Wall -Werror -Wextra $(INCLUDES) -g
+# LD_FLAGS	=	-fsanitize=address
+FLAGS		=	-Wall -Werror -Wextra -lpthread -pthread $(INCLUDES) -g
 
 .c.o:
 				$(CC) -c $< -o $(<:.c=.o) $(FLAGS)
@@ -36,7 +36,7 @@ FLAGS		=	-Wall -Werror -Wextra $(INCLUDES) -g
 all:			start_message $(PHILO)
 
 $(PHILO):		$(OBJS) start_link
-				$(CC) $(OBJS) $(FLAGS) -o $(PHILO) $(LD_FLAGS)
+				$(CC) $(OBJS) $(FLAGS) -o $(PHILO) 
 				@echo "\033[1;31mphilosophers\033[0m is ready to use!"
 
 clean:

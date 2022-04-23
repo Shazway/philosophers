@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:54:55 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/23 18:55:12 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/23 21:59:24 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	init_forks(t_data *data);
 //--------------Utilitary functions--------------//
 int		ft_isdigit(int c);
 int		ft_atoi(char *str);
-int		free_data(t_data *data);
+int		free_data_philo(t_data *data, t_philo *philo);
 //--------------Parsing functions--------------//
 int		check_args(char **av, int ac, t_data *data);
 void	fill_parsing(char **av, t_data *data, int ac);
