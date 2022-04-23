@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 22:18:46 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/23 17:57:30 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/23 18:48:51 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_args(char **av, int ac, t_data *data)
 	if (ac < 5 || ac > 6)
 		return (printf("Wrong number of arguments\n"));
 	if (ft_atoi(av[1]) <= 0)
-		return(printf("How would the simulation work with no philosophers?\n"));
+		return (printf("How would the simulation work with no philosophers?\n"));
 	i = 1;
 	while (av[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:32:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/23 18:08:58 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/23 18:48:29 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	change_lock(pthread_mutex_t *lock, long *n1, long n2)
 
 int	binary_lock(pthread_mutex_t *lock, int n1)
 {
-	int temp;
+	int	temp;
 
 	pthread_mutex_lock(lock);
 	temp = n1;
@@ -31,7 +31,7 @@ int	binary_lock(pthread_mutex_t *lock, int n1)
 
 void	*routine(void *p)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)p;
 	while (binary_lock(&(philo->data->death_lock), philo->data->death) == ALIVE)
@@ -41,7 +41,7 @@ void	*routine(void *p)
 		{
 			release_forks(philo);
 			change_lock(&(philo->data->death_lock),
-						&(philo->data->death), DEAD);
+				&(philo->data->death), DEAD);
 			return (NULL);
 		}
 		philo->nb_meals++;
@@ -59,7 +59,7 @@ void	*routine(void *p)
 
 void	create_threads(t_data *data, t_philo *philo)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	gettimeofday(&(data->start_time), NULL);

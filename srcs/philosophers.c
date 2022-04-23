@@ -6,12 +6,11 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:38:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/23 18:08:08 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/23 18:46:12 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
 
 int	one_philo(t_data *data)
 {
@@ -33,7 +32,7 @@ int	main(int ac, char **av)
 	if (check_args(av, ac, data))
 		return (free_data(data));
 	if (data->nb_philo == 1)
-		return(one_philo(data));
+		return (one_philo(data));
 	pthread_mutex_init(&(data->current_action), NULL);
 	pthread_mutex_init(&(data->death_lock), NULL);
 	philo = malloc(sizeof(t_philo) * data->nb_philo);

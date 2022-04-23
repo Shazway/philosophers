@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:54:55 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/23 18:08:26 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/23 18:55:12 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define ENOUGH 2
 # define NOT_ENOUGH 3
 
-struct s_data;
+struct	s_data;
 
 typedef struct s_philo
 {
@@ -33,7 +33,7 @@ typedef struct s_philo
 	int				state;
 	int				id;
 	long			nb_meals;
-	long 			last_meal;
+	long			last_meal;
 	long			enough_meals;
 	struct timeval	meal;
 	pthread_mutex_t	*r_fork;
@@ -54,7 +54,7 @@ typedef struct s_data
 	struct timeval	current_time;
 	struct timeval	start_time;
 	pthread_mutex_t	current_action;
-	pthread_mutex_t death_lock;
+	pthread_mutex_t	death_lock;
 }	t_data;
 //--------------Init of data--------------//
 void	init_philo_data(t_data *data, t_philo *philo);
@@ -70,21 +70,21 @@ void	fill_parsing(char **av, t_data *data, int ac);
 long	ft_time(long start);
 long	convert_time(struct timeval time);
 void	ft_sleep(long pause_time);
-//--------------Vital functions--------------//
+//--------------Action functions--------------//
 void	current_actions(t_philo *philo, char *action);
 void	get_forks(t_philo *philo);
 void	release_forks(t_philo *philo);
-//--------------Threads and Mutex functions--------------//
+void	ate_enough(t_philo *philo, int i);
+//--------------Threads and lock functions--------------//
 void	*routine(void *p);
 void	create_threads(t_data *data, t_philo *philo);
 void	change_lock(pthread_mutex_t *lock, long *n1, long n2);
 int		binary_lock(pthread_mutex_t *lock, int n1);
-void	death_set(t_philo *philo);
 //--------------Grim Reaper--------------//
+int		death_set(t_philo *philo);
 void	death_row(t_philo *philo);
-void	death_set(t_philo *philo);
+int		enough_meals(t_philo *philo);
 void	obliterate_forks(pthread_mutex_t *fork, int size);
-
-
+int		end_simultaion(t_philo *philo, long now, int i);
 
 #endif
