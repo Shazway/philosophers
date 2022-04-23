@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 22:26:20 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/23 22:00:56 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/23 22:09:05 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,17 +81,7 @@ void	init_philo_data(t_data *data, t_philo *philo)
 
 int	free_data_philo(t_data *data, t_philo *philo)
 {
-	int	i;
-
-	i = 0;
-	if (philo)
-	{
-		while ((philo + i) && i < data->nb_philo)
-		{
-			free(philo + i);
-			i++;
-		}
-	}
+	free(philo);
 	free(data);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:32:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/23 21:44:47 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/04/23 22:08:49 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	create_threads(t_data *data, t_philo *philo)
 	death_set(philo);
 	while (i < data->nb_philo)
 	{
-		pthread_join(philo->t, NULL);
+		pthread_join(philo[i].t, NULL);
 		i++;
 	}
 }
