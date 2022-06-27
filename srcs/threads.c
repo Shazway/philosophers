@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:32:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/23 22:08:49 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/26 02:02:51 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	*routine(void *p)
 	t_philo	*philo;
 
 	philo = (t_philo *)p;
-	while (binary_lock(&(philo->data->death_lock), philo->data->death) == ALIVE)
+	while (1)
 	{
 		get_forks(philo);
 		if (philo->state == DEAD)
@@ -48,10 +48,10 @@ void	*routine(void *p)
 		gettimeofday(&(philo->meal), NULL);
 		philo->last_meal = convert_time(philo->meal);
 		current_actions(philo, "is eating");
-		ft_sleep(philo->data->time_to_eat);
+		ft_sleep(philo->data->time_to_eat, philo);
 		release_forks(philo);
 		current_actions(philo, "is sleeping");
-		ft_sleep(philo->data->time_to_sleep);
+		ft_sleep(philo->data->time_to_sleep, philo);
 		current_actions(philo, "is thinking");
 	}
 	return (NULL);

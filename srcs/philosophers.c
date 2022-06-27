@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:38:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/23 22:04:23 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/26 01:37:39 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	main(int ac, char **av)
 		return (one_philo(data));
 	pthread_mutex_init(&(data->current_action), NULL);
 	pthread_mutex_init(&(data->death_lock), NULL);
+	pthread_mutex_init(&(data->sleep), NULL);
 	philo = malloc(sizeof(t_philo) * data->nb_philo);
 	if (!philo)
 		return (1);
@@ -42,6 +43,7 @@ int	main(int ac, char **av)
 	create_threads(data, philo);
 	pthread_mutex_destroy(&(data->current_action));
 	pthread_mutex_destroy(&(data->death_lock));
+	pthread_mutex_destroy(&(data->sleep));
 	obliterate_forks(data->forks, data->nb_philo);
 	free(data->forks);
 	free_data_philo(data, philo);

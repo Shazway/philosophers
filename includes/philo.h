@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:54:55 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/23 21:59:24 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/26 01:48:11 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_data
 	pthread_mutex_t	*forks;
 	struct timeval	current_time;
 	struct timeval	start_time;
+	pthread_mutex_t	sleep;
 	pthread_mutex_t	current_action;
 	pthread_mutex_t	death_lock;
 }	t_data;
@@ -67,9 +68,8 @@ int		free_data_philo(t_data *data, t_philo *philo);
 int		check_args(char **av, int ac, t_data *data);
 void	fill_parsing(char **av, t_data *data, int ac);
 //--------------Time functions--------------//
-long	ft_time(long start);
 long	convert_time(struct timeval time);
-void	ft_sleep(long pause_time);
+void	ft_sleep(long pause_time, t_philo *philo);
 //--------------Action functions--------------//
 void	current_actions(t_philo *philo, char *action);
 void	get_forks(t_philo *philo);
