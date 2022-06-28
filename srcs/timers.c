@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:34:17 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/27 15:44:24 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/28 17:19:06 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ long	convert_time(struct timeval time)
 
 void	ft_sleep(long pause_time, t_philo *philo)
 {
-	long		total_time;
-	long		current_time;
-	long		start_time;
-	struct		timeval	time;
+	long			total_time;
+	long			current_time;
+	long			start_time;
+	struct timeval	time;
 
 	gettimeofday(&(time), NULL);
 	start_time = convert_time(time);
@@ -32,7 +32,8 @@ void	ft_sleep(long pause_time, t_philo *philo)
 		current_time = convert_time(time);
 		total_time = current_time - start_time;
 		if (total_time >= pause_time
-			|| binary_lock(&(philo->data->death_lock), philo->data->death) == DEAD)
+			|| binary_lock(&(philo->data->death_lock),
+				philo->data->death) == DEAD)
 			break ;
 		if (pause_time - total_time > 1000)
 			usleep(100);
@@ -41,5 +42,4 @@ void	ft_sleep(long pause_time, t_philo *philo)
 		if (pause_time - total_time < 10)
 			usleep(pause_time - total_time);
 	}
-	//printf("%ld\n", total_time);
 }

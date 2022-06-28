@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 22:18:46 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/23 18:48:51 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/28 17:07:52 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,19 @@ void	fill_parsing(char **av, t_data *data, int ac)
 		data->nb_meals = ft_atoi(av[5]);
 	else
 		data->nb_meals = __INT_MAX__;
+}
+
+int	check_zero(t_data *data)
+{	
+	if (data->time_to_die == 0)
+		return (printf("All arguments must be positive numbers\n"));
+	if (data->time_to_eat == 0)
+		return (printf("All arguments must be positive numbers\n"));
+	if (data->time_to_sleep == 0)
+		return (printf("All arguments must be positive numbers\n"));
+	if (data->nb_meals == 0)
+		return (printf("All arguments must be positive numbers\n"));
+	return (0);
 }
 
 int	check_args(char **av, int ac, t_data *data)
@@ -40,11 +53,13 @@ int	check_args(char **av, int ac, t_data *data)
 		while (av[i][j])
 		{
 			if (!ft_isdigit(av[i][j]))
-				return (printf("Arguments must be positive numbers\n"));
+				return (printf("All arguments must be positive numbers\n"));
 			j++;
 		}
 		i++;
 	}
 	fill_parsing(av, data, ac);
+	if (check_zero(data))
+		return (1);
 	return (0);
 }

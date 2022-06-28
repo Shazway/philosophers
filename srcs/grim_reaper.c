@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 18:04:51 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/27 15:44:26 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/28 16:10:33 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	enough_meals(t_philo *philo)
 {
 	change_lock(&(philo->data->death_lock),
 		&(philo->data->death), DEAD);
-	printf("Enough eating for today, all philosophers ate %ld times\n",
+	printf("Enough eating for today, all philosophers ate at least %ld times\n",
 		philo->data->nb_meals);
 	death_row(philo);
 	return (1);
