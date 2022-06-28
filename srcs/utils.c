@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 22:26:20 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/23 22:09:05 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 00:00:53 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,17 @@ void	init_forks(t_data *data)
 	}
 }
 
+void	set_table(t_data *data, t_philo *philo, int i)
+{
+	philo[i].r_fork = data->forks + i;
+	if (i == 0)
+		philo[i].l_fork = data->forks + (data->nb_philo - 1);
+	else
+		philo[i].l_fork = data->forks + (i - 1);
+	(void)philo;
+	
+}
+
 void	init_philo_data(t_data *data, t_philo *philo)
 {
 	int	i;
@@ -65,11 +76,7 @@ void	init_philo_data(t_data *data, t_philo *philo)
 	{
 		philo[i].data = data;
 		philo[i].id = i;
-		philo[i].r_fork = data->forks + i;
-		if (i == data->nb_philo - 1)
-			philo[i].l_fork = data->forks;
-		else
-			philo[i].l_fork = data->forks + i + 1;
+		set_table(data, philo, i);
 		philo[i].enough_meals = NOT_ENOUGH;
 		philo[i].state = ALIVE;
 		philo[i].right_fork = 0;

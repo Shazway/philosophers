@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:35:59 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/28 22:39:04 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 00:10:32 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,19 @@ void	get_forks(t_philo *philo)
 	if (philo->id % 2 > 0)
 	{
 		pthread_mutex_lock(philo->r_fork);
-		current_actions(philo, "has taken a fork");
+		current_actions(philo, "has taken a fork right");
 		philo->right_fork = 1;
 		pthread_mutex_lock(philo->l_fork);
-		current_actions(philo, "has taken a fork");
+		current_actions(philo, "has taken a fork left");
 		philo->left_fork = 1;
 	}
 	else
 	{
 		pthread_mutex_lock(philo->l_fork);
-		current_actions(philo, "has taken a fork");
+		current_actions(philo, "has taken a fork left");
 		philo->left_fork = 1;
 		pthread_mutex_lock(philo->r_fork);
-		current_actions(philo, "has taken a fork");
+		current_actions(philo, "has taken a fork right");
 		philo->right_fork = 1;
 	}
 }
