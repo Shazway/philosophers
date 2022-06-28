@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 18:04:51 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/28 16:10:33 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/28 22:40:03 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ void	death_row(t_philo *philo)
 	while (i < philo->data->nb_philo)
 	{
 		philo[i].state = DEAD;
+		if (philo[i].left_fork == 1)
+			pthread_mutex_unlock(philo[i].l_fork);
+		if (philo[i].right_fork == 1)
+			pthread_mutex_unlock(philo[i].r_fork);
+		philo[i].right_fork = 0;
+		philo[i].left_fork = 0;
 		i++;
 	}
 }

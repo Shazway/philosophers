@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:35:59 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/28 19:34:50 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/28 22:39:04 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,11 @@ void	get_forks(t_philo *philo)
 
 void	release_forks(t_philo *philo)
 {
-	pthread_mutex_unlock(philo->r_fork);
+	if (philo->left_fork == 1)
+		pthread_mutex_unlock(philo->l_fork);
+	if (philo->right_fork == 1)
+		pthread_mutex_unlock(philo->r_fork);
 	philo->right_fork = 0;
-	pthread_mutex_unlock(philo->l_fork);
 	philo->left_fork = 0;
 }
 
