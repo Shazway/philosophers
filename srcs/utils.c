@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 22:26:20 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/04/23 22:09:05 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/28 19:46:08 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,27 @@ void	init_forks(t_data *data)
 	}
 }
 
+void	place_forks(t_data *data, t_philo *philo, int index)
+{
+	int i;
+
+	i = index;
+	if (i == 0)
+	{
+		philo[i].r_fork = data->forks + (i + 1);
+		philo[i].l_fork = data->forks + (data->nb_philo - 1);
+		return ;
+	}
+	if (i == (data->nb_philo - 1))
+	{
+		philo[i].r_fork = data->forks;
+		philo[i].l_fork = data->forks + (i - 1);
+		return ;
+	}
+	philo[i].r_fork = data->forks + (i + 1);
+	philo[i].l_fork = data->forks + (i - 1);
+}
+
 void	init_philo_data(t_data *data, t_philo *philo)
 {
 	int	i;
@@ -65,11 +86,7 @@ void	init_philo_data(t_data *data, t_philo *philo)
 	{
 		philo[i].data = data;
 		philo[i].id = i;
-		philo[i].r_fork = data->forks + i;
-		if (i == data->nb_philo - 1)
-			philo[i].l_fork = data->forks;
-		else
-			philo[i].l_fork = data->forks + i + 1;
+		place_forks(data, philo, i);
 		philo[i].enough_meals = NOT_ENOUGH;
 		philo[i].state = ALIVE;
 		philo[i].right_fork = 0;
