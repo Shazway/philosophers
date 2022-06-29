@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:38:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/29 01:26:08 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 13:49:16 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	obliterate_meal_locks(t_philo *philo)
 {
 	int i;
 
+	i = 0;
 	while (i < philo->data->nb_philo)
 	{
 		pthread_mutex_destroy(&(philo[i].meal_lock));
