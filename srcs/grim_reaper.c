@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 18:04:51 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/29 13:34:38 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 13:47:45 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	end_simultaion(t_philo *philo, long now, int i)
 {
 	change_lock(&(philo->data->death_lock),
 		&(philo->data->death), DEAD);
-	current_actions(philo[i], "died");
 	printf("%ld %d %s\n",
 		now - convert_time(philo->data->start_time), i + 1, "died");
 	death_row(philo);
