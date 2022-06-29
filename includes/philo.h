@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:54:55 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/29 16:17:16 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 16:44:51 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,6 @@ int		death_set(t_philo *philo);
 void	death_row(t_philo *philo);
 int		enough_meals(t_philo *philo);
 void	obliterate_forks(pthread_mutex_t *fork, int size);
-int	end_simulation(t_philo *philo, long now, int i);
+int		end_simulation(t_philo *philo, long now, int i);
 
 #endif

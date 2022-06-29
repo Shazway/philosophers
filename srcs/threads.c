@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:32:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/29 16:03:54 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 16:44:52 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	change_lock(pthread_mutex_t *lock, long *n1, long n2)
 
 int	compare_lock(pthread_mutex_t *lock, long n1, long n2)
 {
-	int i;
+	int	i;
 
 	pthread_mutex_lock(lock);
 	if (n1 == n2)
@@ -65,10 +65,10 @@ void	*routine(void *p)
 		}
 		pthread_mutex_unlock(&(philo->data->death_lock));
 		change_lock(&(philo->data->death_lock), &(philo->nb_meals),
-				(philo->nb_meals + 1));
+			(philo->nb_meals + 1));
 		gettimeofday(&(philo->meal), NULL);
 		change_lock(&(philo->data->death_lock), &(philo->last_meal),
-				convert_time(philo->meal));
+			convert_time(philo->meal));
 		current_actions(philo, "is eating");
 		ft_sleep(philo->data->time_to_eat, philo);
 		release_forks(philo);

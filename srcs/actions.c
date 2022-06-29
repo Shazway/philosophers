@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:35:59 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/29 16:11:43 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 16:27:24 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	current_actions(t_philo *philo, char *action)
 	if (philo->data->death == ALIVE)
 		printf("%ld %d %s\n",
 			convert_time(current_time) - convert_time(philo->data->start_time),
-				philo->id + 1, action);
+			philo->id + 1, action);
 	pthread_mutex_unlock(&(philo->data->death_lock));
 	pthread_mutex_unlock(&(philo->data->current_action));
 }
