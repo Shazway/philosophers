@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:32:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/28 17:21:41 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 13:40:47 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,21 @@ void	change_lock(pthread_mutex_t *lock, long *n1, long n2)
 	pthread_mutex_lock(lock);
 	*n1 = n2;
 	pthread_mutex_unlock(lock);
+}
+
+int	compare_lock(pthread_mutex_t *lock, long n1, long n2)
+{
+	int i;
+
+	pthread_mutex_lock(lock);
+	if (n1 == n2)
+		i = 1;
+	if (n1 > n2)
+		i = 2;
+	if (n1 < n2)
+		i = 3;
+	pthread_mutex_unlock(lock);
+	return (i);
 }
 
 int	binary_lock(pthread_mutex_t *lock, int n1)
@@ -44,9 +59,11 @@ void	*routine(void *p)
 				&(philo->data->death), DEAD);
 			return (NULL);
 		}
-		philo->nb_meals++;
+		change_lock(&(philo->meal_lock), &(philo->nb_meals),
+				(philo->nb_meals + 1));
 		gettimeofday(&(philo->meal), NULL);
-		philo->last_meal = convert_time(philo->meal);
+		change_lock(&(philo->meal_lock), &(philo->last_meal), 
+				convert_time(philo->meal));
 		current_actions(philo, "is eating");
 		ft_sleep(philo->data->time_to_eat, philo);
 		release_forks(philo);

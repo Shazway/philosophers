@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 18:04:51 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/28 22:40:03 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 13:34:38 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,7 @@ void	death_row(t_philo *philo)
 	while (i < philo->data->nb_philo)
 	{
 		philo[i].state = DEAD;
-		if (philo[i].left_fork == 1)
-			pthread_mutex_unlock(philo[i].l_fork);
-		if (philo[i].right_fork == 1)
-			pthread_mutex_unlock(philo[i].r_fork);
-		philo[i].right_fork = 0;
-		philo[i].left_fork = 0;
+		pthread_mutex_destroy(&(philo[i].meal_lock));
 		i++;
 	}
 }
@@ -56,6 +51,7 @@ int	end_simultaion(t_philo *philo, long now, int i)
 {
 	change_lock(&(philo->data->death_lock),
 		&(philo->data->death), DEAD);
+	current_actions(philo[i], "died");
 	printf("%ld %d %s\n",
 		now - convert_time(philo->data->start_time), i + 1, "died");
 	death_row(philo);
@@ -76,12 +72,15 @@ int	death_set(t_philo *philo)
 		{
 			gettimeofday(&time, NULL);
 			now = convert_time(time);
-			if (philo[i].nb_meals == philo->data->nb_meals
-				&& philo[i].enough_meals == NOT_ENOUGH)
+			if (compare_lock(&(philo[i].meal_lock),
+				philo[i].nb_meals, philo->data->nb_meals) == 1
+					&& philo[i].enough_meals == NOT_ENOUGH)
 				ate_enough(philo, i);
-			if (philo->data->philo_meals == philo->data->nb_philo)
+			if (compare_lock(&(philo[i].meal_lock),
+				philo->data->philo_meals, philo->data->nb_philo) == 1)
 				return (enough_meals(philo));
-			if (now - philo[i].last_meal > philo->data->time_to_die)
+			if (compare_lock(&(philo[i].meal_lock),
+				now - philo[i].last_meal, philo->data->time_to_die) == 2)
 				return (end_simultaion(philo, now, i));
 			i++;
 		}

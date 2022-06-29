@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:54:55 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/26 01:48:11 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 01:16:36 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ typedef struct s_philo
 	long			enough_meals;
 	struct timeval	meal;
 	pthread_mutex_t	*r_fork;
-	pthread_t		t;
 	pthread_mutex_t	*l_fork;
+	pthread_mutex_t	meal_lock;
+	pthread_t		t;
 }	t_philo;
 
 typedef struct s_data
@@ -80,6 +81,7 @@ void	*routine(void *p);
 void	create_threads(t_data *data, t_philo *philo);
 void	change_lock(pthread_mutex_t *lock, long *n1, long n2);
 int		binary_lock(pthread_mutex_t *lock, int n1);
+int		compare_lock(pthread_mutex_t *lock, long n1, long n2);
 //--------------Grim Reaper--------------//
 int		death_set(t_philo *philo);
 void	death_row(t_philo *philo);

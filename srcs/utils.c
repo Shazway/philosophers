@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 22:26:20 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/29 00:00:53 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 01:14:43 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	init_philo_data(t_data *data, t_philo *philo)
 		philo[i].right_fork = 0;
 		philo[i].left_fork = 0;
 		philo[i].nb_meals = 0;
+		pthread_mutex_init(&(philo[i].meal_lock), NULL);
 		i++;
 	}
 }

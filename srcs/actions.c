@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:35:59 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/29 00:10:32 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 01:47:46 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	current_actions(t_philo *philo, char *action)
 	if (binary_lock(&(philo->data->death_lock), philo->data->death))
 		printf("%ld %d %s\n",
 			convert_time(current_time) - convert_time(philo->data->start_time),
-			philo->id + 1, action);
+				philo->id + 1, action);
 	pthread_mutex_unlock(&(philo->data->current_action));
 }
 
@@ -30,19 +30,19 @@ void	get_forks(t_philo *philo)
 	if (philo->id % 2 > 0)
 	{
 		pthread_mutex_lock(philo->r_fork);
-		current_actions(philo, "has taken a fork right");
+		current_actions(philo, "has taken a fork");
 		philo->right_fork = 1;
 		pthread_mutex_lock(philo->l_fork);
-		current_actions(philo, "has taken a fork left");
+		current_actions(philo, "has taken a fork");
 		philo->left_fork = 1;
 	}
 	else
 	{
 		pthread_mutex_lock(philo->l_fork);
-		current_actions(philo, "has taken a fork left");
+		current_actions(philo, "has taken a fork");
 		philo->left_fork = 1;
 		pthread_mutex_lock(philo->r_fork);
-		current_actions(philo, "has taken a fork right");
+		current_actions(philo, "has taken a fork");
 		philo->right_fork = 1;
 	}
 }
