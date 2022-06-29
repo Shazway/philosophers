@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:34:17 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/28 17:19:06 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 15:10:29 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,13 @@ void	ft_sleep(long pause_time, t_philo *philo)
 		gettimeofday(&(time), NULL);
 		current_time = convert_time(time);
 		total_time = current_time - start_time;
-		if (total_time >= pause_time
-			|| binary_lock(&(philo->data->death_lock),
-				philo->data->death) == DEAD)
+		pthread_mutex_lock(&(philo->data->death_lock));
+		if (total_time >= pause_time)
+		{
+			pthread_mutex_unlock(&(philo->data->death_lock));
 			break ;
+		}
+		pthread_mutex_unlock(&(philo->data->death_lock));
 		if (pause_time - total_time > 1000)
 			usleep(100);
 		if (pause_time - total_time > 10 && pause_time - total_time < 1000)

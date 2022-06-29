@@ -1,16 +1,16 @@
 make --dry-run --always-make --keep-going --print-directory
-make: Entering directory '/home/telli/Code/C/philosophers'
+make: Entering directory '/home/telli/Code/C/philo copy'
 echo "\033[0;31mMaking \033[1;31mphilosophers"
 echo "\033[1;32mCompiling objects\033[0;32m"
-gcc -c srcs/philosophers.c -o srcs/philosophers.o -Wall -Werror -Wextra -lpthread -pthread -Iincludes -g
-gcc -c srcs/utils.c -o srcs/utils.o -Wall -Werror -Wextra -lpthread -pthread -Iincludes -g
-gcc -c srcs/parsing.c -o srcs/parsing.o -Wall -Werror -Wextra -lpthread -pthread -Iincludes -g
-gcc -c srcs/actions.c -o srcs/actions.o -Wall -Werror -Wextra -lpthread -pthread -Iincludes -g
-gcc -c srcs/threads.c -o srcs/threads.o -Wall -Werror -Wextra -lpthread -pthread -Iincludes -g
-gcc -c srcs/timers.c -o srcs/timers.o -Wall -Werror -Wextra -lpthread -pthread -Iincludes -g
-gcc -c srcs/grim_reaper.c -o srcs/grim_reaper.o -Wall -Werror -Wextra -lpthread -pthread -Iincludes -g
+gcc -c srcs/philosophers.c -o srcs/philosophers.o -Wall -Werror -Wextra -lpthread -pthread -Iincludes -g3
+gcc -c srcs/utils.c -o srcs/utils.o -Wall -Werror -Wextra -lpthread -pthread -Iincludes -g3
+gcc -c srcs/parsing.c -o srcs/parsing.o -Wall -Werror -Wextra -lpthread -pthread -Iincludes -g3
+gcc -c srcs/actions.c -o srcs/actions.o -Wall -Werror -Wextra -lpthread -pthread -Iincludes -g3
+gcc -c srcs/threads.c -o srcs/threads.o -Wall -Werror -Wextra -lpthread -pthread -Iincludes -g3
+gcc -c srcs/timers.c -o srcs/timers.o -Wall -Werror -Wextra -lpthread -pthread -Iincludes -g3
+gcc -c srcs/grim_reaper.c -o srcs/grim_reaper.o -Wall -Werror -Wextra -lpthread -pthread -Iincludes -g3
 echo "\033[1;32mLinking all objects\033[0;32m"
-gcc srcs/philosophers.o srcs/utils.o srcs/parsing.o srcs/actions.o srcs/threads.o srcs/timers.o srcs/grim_reaper.o -Wall -Werror -Wextra -lpthread -pthread -Iincludes -g -o philo -fsanitize=address
+gcc srcs/philosophers.o srcs/utils.o srcs/parsing.o srcs/actions.o srcs/threads.o srcs/timers.o srcs/grim_reaper.o -Wall -Werror -Wextra -lpthread -pthread -Iincludes -g3 -o philo
 echo "\033[1;31mphilosophers\033[0m is ready to use!"
-make: Leaving directory '/home/telli/Code/C/philosophers'
+make: Leaving directory '/home/telli/Code/C/philo copy'
  

@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 18:04:51 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/29 13:47:45 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 16:18:47 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,14 @@ void	death_row(t_philo *philo)
 	while (i < philo->data->nb_philo)
 	{
 		philo[i].state = DEAD;
-		pthread_mutex_destroy(&(philo[i].meal_lock));
 		i++;
 	}
 }
 
 int	enough_meals(t_philo *philo)
 {
-	change_lock(&(philo->data->death_lock),
-		&(philo->data->death), DEAD);
+	philo->data->death = DEAD;
+	pthread_mutex_unlock(&(philo->data->death_lock));
 	printf("Enough eating for today, all philosophers ate at least %ld times\n",
 		philo->data->nb_meals);
 	death_row(philo);
@@ -47,13 +46,16 @@ void	obliterate_forks(pthread_mutex_t *fork, int size)
 	}
 }
 
-int	end_simultaion(t_philo *philo, long now, int i)
+int	end_simulation(t_philo *philo, long now, int i)
 {
-	change_lock(&(philo->data->death_lock),
-		&(philo->data->death), DEAD);
+	death_row(philo);
+	pthread_mutex_unlock(&(philo->data->death_lock));
+	pthread_mutex_lock(&(philo->data->current_action));
 	printf("%ld %d %s\n",
 		now - convert_time(philo->data->start_time), i + 1, "died");
-	death_row(philo);
+	pthread_mutex_unlock(&(philo->data->current_action));
+	change_lock(&(philo->data->death_lock),
+		&(philo->data->death), DEAD);
 	return (1);
 }
 
@@ -67,22 +69,22 @@ int	death_set(t_philo *philo)
 	while (1)
 	{
 		i = 0;
+		pthread_mutex_lock(&(philo->data->death_lock));
 		while (i < philo->data->nb_philo)
 		{
 			gettimeofday(&time, NULL);
 			now = convert_time(time);
-			if (compare_lock(&(philo[i].meal_lock),
-				philo[i].nb_meals, philo->data->nb_meals) == 1
+			if (philo[i].nb_meals == philo->data->nb_meals
 					&& philo[i].enough_meals == NOT_ENOUGH)
 				ate_enough(philo, i);
-			if (compare_lock(&(philo[i].meal_lock),
-				philo->data->philo_meals, philo->data->nb_philo) == 1)
+			if (philo->data->philo_meals == philo->data->nb_philo)
 				return (enough_meals(philo));
-			if (compare_lock(&(philo[i].meal_lock),
-				now - philo[i].last_meal, philo->data->time_to_die) == 2)
-				return (end_simultaion(philo, now, i));
+			if (now - philo[i].last_meal > philo->data->time_to_die)
+				return (end_simulation(philo, now, i));
 			i++;
 		}
+		pthread_mutex_unlock(&(philo->data->death_lock));
+		usleep(100);
 	}
 	return (0);
 }

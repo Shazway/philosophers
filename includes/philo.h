@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:54:55 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/29 01:16:36 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 16:17:16 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ typedef struct s_philo
 	struct timeval	meal;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*l_fork;
-	pthread_mutex_t	meal_lock;
 	pthread_t		t;
 }	t_philo;
 
@@ -51,12 +50,11 @@ typedef struct s_data
 	long			nb_meals;
 	long			philo_meals;
 	long			death;
-	pthread_mutex_t	*forks;
 	struct timeval	current_time;
 	struct timeval	start_time;
-	pthread_mutex_t	sleep;
 	pthread_mutex_t	current_action;
 	pthread_mutex_t	death_lock;
+	pthread_mutex_t	*forks;
 }	t_data;
 //--------------Init of data--------------//
 void	init_philo_data(t_data *data, t_philo *philo);
@@ -87,6 +85,6 @@ int		death_set(t_philo *philo);
 void	death_row(t_philo *philo);
 int		enough_meals(t_philo *philo);
 void	obliterate_forks(pthread_mutex_t *fork, int size);
-int		end_simultaion(t_philo *philo, long now, int i);
+int	end_simulation(t_philo *philo, long now, int i);
 
 #endif

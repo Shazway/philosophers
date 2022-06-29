@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Jun 27 15:12:58 2022
+# Make data base, printed on Wed Jun 29 14:31:43 2022
 
 # Variables
 
@@ -31,7 +31,7 @@ INCLUDES = -Iincludes
 # automatic
 @F = $(notdir $@)
 # makefile
-CURDIR := /home/telli/Code/C/philosophers
+CURDIR := /home/telli/Code/C/philo copy
 # makefile
 SHELL = /bin/sh
 # makefile (from 'Makefile', line 28)
@@ -61,7 +61,7 @@ LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-aaed4861-f059-4dab-a4e4-06f7774c32cc.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-8e9bb82b-c8d9-4417-9a1d-547233716816.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -71,11 +71,11 @@ LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
-PWD = /home/telli/Code/C/philosophers
+PWD = /home/telli/Code/C/philo copy
 # default
 .LOADED := 
 # environment
-WSL_INTEROP = /run/WSL/12_interop
+WSL_INTEROP = /run/WSL/4675_interop
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
@@ -83,7 +83,7 @@ HOME = /home/telli
 # environment
 LOGNAME = telli
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
 ZSH = /home/telli/.oh-my-zsh
 # environment
@@ -151,7 +151,7 @@ HOSTTYPE = x86_64
 # default
 SUFFIXES := 
 # makefile (from 'Makefile', line 31)
-FLAGS = -Wall -Werror -Wextra -lpthread -pthread $(INCLUDES) -g
+FLAGS = -Wall -Werror -Wextra -lpthread -pthread $(INCLUDES) -g3
 # default
 .INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
 # default
@@ -173,9 +173,9 @@ WSL_DISTRO_NAME = Ubuntu-20.04
 
 # Directories
 
-# . (device 2064, inode 50501): 10 files, no impossibilities.
+# . (device 2064, inode 170527): 9 files, no impossibilities.
 
-# 10 files, no impossibilities in 1 directories.
+# 9 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -204,7 +204,7 @@ philo: srcs/philosophers.o srcs/utils.o srcs/parsing.o srcs/actions.o srcs/threa
 #  Modification time never checked.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 39):
-				$(CC) $(OBJS) $(FLAGS) -o $(PHILO) $(LD_FLAGS)
+				$(CC) $(OBJS) $(FLAGS) -o $(PHILO)
 				@echo "\033[1;31mphilosophers\033[0m is ready to use!"
 
 .PHONY: all clean fclean re
@@ -221,7 +221,7 @@ philo: srcs/philosophers.o srcs/utils.o srcs/parsing.o srcs/actions.o srcs/threa
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-26 01:34:33.6714266
+#  Last modified 2022-06-29 14:27:56.5905808
 #  File has been updated.
 #  Successfully updated.
 
@@ -275,8 +275,8 @@ srcs/actions.o:
 
 # Not a target:
 srcs/grim_reaper.o:
- 
 #  Implicit rule search has not been done.
+ 
 #  Modification time never checked.
 #  File has not been updated.
 
@@ -343,12 +343,12 @@ start_message:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 29 / storage = 291 B / avg = 10 B
-# current buf: size = 8162 B / used = 291 B / count = 29 / avg = 10 B
+# strcache buffers: 1 (0) / strings = 28 / storage = 286 B / avg = 10 B
+# current buf: size = 8162 B / used = 286 B / count = 28 / avg = 10 B
 
-# strcache performance: lookups = 54 / hit rate = 46%
+# strcache performance: lookups = 53 / hit rate = 47%
 # hash-table stats:
-# Load=29/8192=0%, Rehash=0, Collisions=1/54=2%
-# Finished Make data base on Mon Jun 27 15:12:58 2022
+# Load=28/8192=0%, Rehash=0, Collisions=1/53=2%
+# Finished Make data base on Wed Jun 29 14:31:43 2022
 
  

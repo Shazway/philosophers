@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:38:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/29 13:49:16 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 14:40:48 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,6 @@ int	one_philo(t_data *data)
 	printf("%ld 1 died\n", data->time_to_die);
 	free(data);
 	return (0);
-}
-
-void	obliterate_meal_locks(t_philo *philo)
-{
-	int i;
-
-	i = 0;
-	while (i < philo->data->nb_philo)
-	{
-		pthread_mutex_destroy(&(philo[i].meal_lock));
-		i++;
-	}
 }
 
 int	main(int ac, char **av)
@@ -47,7 +35,6 @@ int	main(int ac, char **av)
 		return (one_philo(data));
 	pthread_mutex_init(&(data->current_action), NULL);
 	pthread_mutex_init(&(data->death_lock), NULL);
-	pthread_mutex_init(&(data->sleep), NULL);
 	philo = malloc(sizeof(t_philo) * data->nb_philo);
 	if (!philo)
 		return (1);
@@ -55,8 +42,6 @@ int	main(int ac, char **av)
 	create_threads(data, philo);
 	pthread_mutex_destroy(&(data->current_action));
 	pthread_mutex_destroy(&(data->death_lock));
-	pthread_mutex_destroy(&(data->sleep));
-	obliterate_meal_locks(philo);
 	obliterate_forks(data->forks, data->nb_philo);
 	free(data->forks);
 	free_data_philo(data, philo);

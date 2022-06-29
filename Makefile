@@ -6,7 +6,7 @@
 #    By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/06 23:27:53 by tmoragli          #+#    #+#              #
-#    Updated: 2022/06/29 00:32:33 by tmoragli         ###   ########.fr        #
+#    Updated: 2022/06/29 14:12:42 by tmoragli         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,8 @@ OBJS		=	$(SRCS:.c=.o)
 CC			=	gcc
 RM			=	@rm -f
 
-#LD_FLAGS	=	-fsanitize=address
-FLAGS		=	-Wall -Werror -Wextra -lpthread -pthread $(INCLUDES) -g
+LD_FLAGS	=	-fsanitize=address
+FLAGS		=	-Wall -Werror -Wextra -lpthread -pthread $(INCLUDES) -g3
 
 .c.o:
 				$(CC) -c $< -o $(<:.c=.o) $(FLAGS)

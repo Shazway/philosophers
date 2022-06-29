@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:32:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/29 13:40:47 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 16:03:54 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,25 @@ void	*routine(void *p)
 	t_philo	*philo;
 
 	philo = (t_philo *)p;
+	if (philo->id % 2 > 0)
+		usleep(30000);
 	while (1)
 	{
 		get_forks(philo);
+		pthread_mutex_lock(&(philo->data->death_lock));
 		if (philo->state == DEAD)
 		{
 			release_forks(philo);
+			pthread_mutex_unlock(&(philo->data->death_lock));
 			change_lock(&(philo->data->death_lock),
 				&(philo->data->death), DEAD);
 			return (NULL);
 		}
-		change_lock(&(philo->meal_lock), &(philo->nb_meals),
+		pthread_mutex_unlock(&(philo->data->death_lock));
+		change_lock(&(philo->data->death_lock), &(philo->nb_meals),
 				(philo->nb_meals + 1));
 		gettimeofday(&(philo->meal), NULL);
-		change_lock(&(philo->meal_lock), &(philo->last_meal), 
+		change_lock(&(philo->data->death_lock), &(philo->last_meal),
 				convert_time(philo->meal));
 		current_actions(philo, "is eating");
 		ft_sleep(philo->data->time_to_eat, philo);
@@ -70,6 +75,7 @@ void	*routine(void *p)
 		current_actions(philo, "is sleeping");
 		ft_sleep(philo->data->time_to_sleep, philo);
 		current_actions(philo, "is thinking");
+		ft_sleep(3, philo);
 	}
 	return (NULL);
 }
