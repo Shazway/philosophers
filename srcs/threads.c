@@ -6,42 +6,24 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:32:38 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/29 16:44:52 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 20:27:34 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	change_lock(pthread_mutex_t *lock, long *n1, long n2)
+int	routine_lock(t_philo *philo)
 {
-	pthread_mutex_lock(lock);
-	*n1 = n2;
-	pthread_mutex_unlock(lock);
-}
-
-int	compare_lock(pthread_mutex_t *lock, long n1, long n2)
-{
-	int	i;
-
-	pthread_mutex_lock(lock);
-	if (n1 == n2)
-		i = 1;
-	if (n1 > n2)
-		i = 2;
-	if (n1 < n2)
-		i = 3;
-	pthread_mutex_unlock(lock);
-	return (i);
-}
-
-int	binary_lock(pthread_mutex_t *lock, int n1)
-{
-	int	temp;
-
-	pthread_mutex_lock(lock);
-	temp = n1;
-	pthread_mutex_unlock(lock);
-	return (temp);
+	pthread_mutex_lock(&(philo->data->death_lock));
+	if (philo->state == DEAD)
+	{
+		release_forks(philo);
+		philo->data->death = DEAD;
+		pthread_mutex_unlock(&(philo->data->death_lock));
+		return (1);
+	}
+	pthread_mutex_unlock(&(philo->data->death_lock));
+	return (0);
 }
 
 void	*routine(void *p)
@@ -54,16 +36,8 @@ void	*routine(void *p)
 	while (1)
 	{
 		get_forks(philo);
-		pthread_mutex_lock(&(philo->data->death_lock));
-		if (philo->state == DEAD)
-		{
-			release_forks(philo);
-			pthread_mutex_unlock(&(philo->data->death_lock));
-			change_lock(&(philo->data->death_lock),
-				&(philo->data->death), DEAD);
+		if (routine_lock(philo))
 			return (NULL);
-		}
-		pthread_mutex_unlock(&(philo->data->death_lock));
 		change_lock(&(philo->data->death_lock), &(philo->nb_meals),
 			(philo->nb_meals + 1));
 		gettimeofday(&(philo->meal), NULL);

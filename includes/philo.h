@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 23:54:55 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/29 16:44:51 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 20:44:03 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_data
 //--------------Init of data--------------//
 void	init_philo_data(t_data *data, t_philo *philo);
 void	init_forks(t_data *data);
+void	set_table(t_data *data, t_philo *philo, int i);
 //--------------Utilitary functions--------------//
 int		ft_isdigit(int c);
 int		ft_atoi(char *str);

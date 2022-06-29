@@ -6,7 +6,7 @@
 /*   By: tmoragli <tmoragli@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 18:04:51 by tmoragli          #+#    #+#             */
-/*   Updated: 2022/06/29 16:25:50 by tmoragli         ###   ########.fr       */
+/*   Updated: 2022/06/29 20:52:07 by tmoragli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,6 @@ int	enough_meals(t_philo *philo)
 	return (1);
 }
 
-void	obliterate_forks(pthread_mutex_t *fork, int size)
-{
-	int	i;
-
-	i = 0;
-	while (i < size)
-	{
-		pthread_mutex_destroy(fork + i);
-		i++;
-	}
-}
-
 int	end_simulation(t_philo *philo, long now, int i)
 {
 	death_row(philo);
@@ -59,32 +47,34 @@ int	end_simulation(t_philo *philo, long now, int i)
 	return (1);
 }
 
-int	death_set(t_philo *philo)
+int	death_loop(t_philo *philo, long now, int i)
 {
-	int				i;
 	struct timeval	time;
-	long			now;
 
 	i = 0;
-	while (1)
+	pthread_mutex_lock(&(philo->data->death_lock));
+	while (i < philo->data->nb_philo)
 	{
-		i = 0;
-		pthread_mutex_lock(&(philo->data->death_lock));
-		while (i < philo->data->nb_philo)
-		{
-			gettimeofday(&time, NULL);
-			now = convert_time(time);
-			if (philo[i].nb_meals == philo->data->nb_meals
-					&& philo[i].enough_meals == NOT_ENOUGH)
-				ate_enough(philo, i);
-			if (philo->data->philo_meals == philo->data->nb_philo)
-				return (enough_meals(philo));
-			if (now - philo[i].last_meal > philo->data->time_to_die)
-				return (end_simulation(philo, now, i));
-			i++;
-		}
-		pthread_mutex_unlock(&(philo->data->death_lock));
-		usleep(100);
+		gettimeofday(&time, NULL);
+		now = convert_time(time);
+		if (philo[i].nb_meals == philo->data->nb_meals
+			&& philo[i].enough_meals == NOT_ENOUGH)
+			ate_enough(philo, i);
+		if (philo->data->philo_meals == philo->data->nb_philo)
+			return (enough_meals(philo));
+		if (now - philo[i].last_meal > philo->data->time_to_die)
+			return (end_simulation(philo, now, i));
+		i++;
 	}
+	pthread_mutex_unlock(&(philo->data->death_lock));
+	usleep(1000);
+	return (0);
+}
+
+int	death_set(t_philo *philo)
+{
+	while (1)
+		if (death_loop(philo, 0, 0))
+			break ;
 	return (0);
 }
